@@ -2,7 +2,8 @@
   "name": "electron-01",
   "version": "0.1.0",
   "private": true,
-  "main": "public/main.js",
+  "author": "FloweryK",
+  "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -12,6 +13,7 @@
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -23,9 +25,19 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "react-start": "cross-env BROWSER=none react-scripts start",
-    "electron-start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
-    "electron-pack": "npm run build && electron-builder build -c.extraMetadata.main=build/main.js",
-    "start": "concurrently \"npm run react-start\" \"npm run electron-start\""
+    "electron-start": "electron .",
+    "start": "concurrently \"npm run react-start\" \"npm run electron-start\"",
+    "electron-pack": "npm run build && electron-builder build -c.extraMetadata.main=build/electron.js"
+  },
+  "build": {
+    "appId": "com.example.electron-01",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "eslintConfig": {
     "extends": [
