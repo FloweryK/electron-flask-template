@@ -10,9 +10,12 @@
 
 # production
 build/
-dist/
+/dist/
 venv/
 *.spec
+
+# typescript
+*.js
 
 # misc
 .DS_Store
