@@ -26,9 +26,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "react-start": "cross-env BROWSER=none react-scripts start",
+    "react-start": "react-scripts start",
     "electron-start": "electron .",
-    "start": "tsc ./public/electron.ts && concurrently \"npm run react-start\" \"npm run electron-start\"",
+    "start": "tsc ./public/electron.ts && concurrently \"cross-env BROWSER=none npm run react-start\" \"npm run electron-start\"",
     "electron-pack": "npm run build && electron-builder build -c.extraMetadata.main=build/electron.js"
   },
   "build": {
