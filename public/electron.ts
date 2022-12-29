@@ -2,6 +2,7 @@ import { app, BrowserWindow } from "electron";
 const isDev = require("electron-is-dev");
 const path = require("path");
 const execFile = require("child_process").execFile;
+const exec = require("child_process").exec;
 
 let mainWindow: BrowserWindow;
 
@@ -23,8 +24,8 @@ const createSimulationServer = () => {
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 1000,
+    height: 500,
   });
 
   mainWindow.loadURL(
@@ -43,6 +44,15 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+
+  exec("taskkill /f /t /im server.exe", (err, stdout, stderr) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 });
 
 app.on("activate", () => {
