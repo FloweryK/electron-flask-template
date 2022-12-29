@@ -9,8 +9,10 @@
 /coverage
 
 # production
-/build
-/dist
+build/
+dist/
+venv/
+*.spec
 
 # misc
 .DS_Store
