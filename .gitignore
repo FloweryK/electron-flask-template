@@ -15,7 +15,7 @@ venv/
 *.spec
 
 # typescript
-*.js
+public/electron.js
 
 # misc
 .DS_Store
