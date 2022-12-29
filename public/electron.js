@@ -1,32 +1,26 @@
-const { app, BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
-const path = require("path");
-
-let mainWindow;
-
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
-  });
-
-  mainWindow.loadURL(
-    isDev
-      ? "http://localhost:3000"
-      : `file://${path.join(__dirname, "../build/index.html")}`
-  );
-}
-
-app.on("ready", createWindow);
-
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+"use strict";
+exports.__esModule = true;
+var electron_1 = require("electron");
+var isDev = require("electron-is-dev");
+var path = require("path");
+var mainWindow;
+var createWindow = function () {
+    mainWindow = new electron_1.BrowserWindow({
+        width: 1920,
+        height: 1080
+    });
+    mainWindow.loadURL(isDev
+        ? "http://localhost:3000"
+        : "file://".concat(path.join(__dirname, "../build/index.html")));
+};
+electron_1.app.on("ready", createWindow);
+electron_1.app.on("window-all-closed", function () {
+    if (process.platform !== "darwin") {
+        electron_1.app.quit();
+    }
 });
-
-app.on("activate", () => {
-  if (mainWindow === null) {
-    createWindow();
-  }
+electron_1.app.on("activate", function () {
+    if (mainWindow === null) {
+        createWindow();
+    }
 });
