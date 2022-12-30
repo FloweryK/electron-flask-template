@@ -4,10 +4,16 @@ const path = require("path");
 const execFile = require("child_process").execFile;
 const exec = require("child_process").exec;
 
+const isWindows = process.platform.startsWith("win");
 let mainWindow: BrowserWindow;
 
 const createSimulationServer = () => {
-  let backend = path.join(process.cwd(), "backend", "dist", "server.exe");
+  const backend = path.join(
+    process.cwd(),
+    "backend",
+    "dist",
+    isWindows ? "server.exe" : "server"
+  );
 
   execFile(backend, (err, stdout, stderr) => {
     if (err) {
@@ -41,18 +47,18 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+  if (isWindows) {
     app.quit();
-  }
 
-  exec("taskkill /f /t /im server.exe", (err, stdout, stderr) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
+    exec("taskkill /f /t /im server.exe", (err, stdout, stderr) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
+  }
 });
 
 app.on("activate", () => {
