@@ -1,32 +1,9 @@
 import { app, BrowserWindow } from "electron";
+import { createSimulationServer, killSimulationServer } from "./server";
 const isDev = require("electron-is-dev");
 const path = require("path");
-const execFile = require("child_process").execFile;
-const exec = require("child_process").exec;
 
-const isWindows = process.platform.startsWith("win");
 let mainWindow: BrowserWindow;
-
-const createSimulationServer = () => {
-  const backend = path.join(
-    process.cwd(),
-    "backend",
-    "dist",
-    isWindows ? "server.exe" : "server"
-  );
-
-  execFile(backend, (err, stdout, stderr) => {
-    if (err) {
-      console.log(err);
-    }
-    if (stdout) {
-      console.log(stdout);
-    }
-    if (stderr) {
-      console.log(stderr);
-    }
-  });
-};
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -47,17 +24,9 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", () => {
-  if (isWindows) {
+  if (process.platform !== "darwin") {
     app.quit();
-
-    exec("taskkill /f /t /im server.exe", (err, stdout, stderr) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
-    });
+    killSimulationServer();
   }
 });
 
