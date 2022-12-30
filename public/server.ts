@@ -5,7 +5,7 @@ const isWindows = process.platform.startsWith("win");
 
 const createSimulationServer = () => {
   const backend = path.join(
-    process.cwd(),
+    __dirname,
     "backend",
     "dist",
     isWindows ? "server.exe" : "server"
