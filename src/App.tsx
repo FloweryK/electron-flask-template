@@ -1,22 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-function App() {
-  const [result, setResult] = useState("empty");
+const HOST = "http://127.0.0.1:5000";
+const OFFLINE = "offline";
+const ONLINE = "online";
+const UPDATE_INTERVAL = 1000;
 
-  const onClick = () => {
+function App() {
+  const [serverStatus, setServerStatus] = useState(OFFLINE);
+
+  const updateServerStatus = () => {
     axios
-      .get("http://127.0.0.1:5000")
+      .get(HOST)
       .then((res) => {
-        setResult(res.data);
+        setServerStatus(ONLINE);
       })
       .catch((err) => {
-        setResult(err.data);
+        setServerStatus(OFFLINE);
       });
   };
+
+  useEffect(() => {
+    setInterval(updateServerStatus, UPDATE_INTERVAL);
+  }, []);
 
   return (
     <div className="App">
@@ -25,7 +34,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <button onClick={onClick}>result: {result}</button>
+        <p>{serverStatus}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
