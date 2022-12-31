@@ -11,6 +11,8 @@ const backend = path.join(
 let child;
 
 const createSimulationServer = () => {
+  console.log("creating simulation server");
+
   child = execFile(backend, (err, stdout, stderr) => {
     if (err) {
       console.log(err);
@@ -27,6 +29,7 @@ const createSimulationServer = () => {
 const killSimulationServer = () => {
   console.log("killing simulation server");
   console.log("child pid: ", child.pid);
+
   child.kill();
 };
 
