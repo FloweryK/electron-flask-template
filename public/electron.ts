@@ -19,19 +19,30 @@ const createWindow = () => {
 };
 
 app.on("ready", () => {
+  console.log("app ready");
+
   createSimulationServer();
   createWindow();
 });
 
 app.on("window-all-closed", () => {
+  console.log("app window-all-closed");
+
   if (process.platform !== "darwin") {
     app.quit();
-    killSimulationServer();
   }
 });
 
 app.on("activate", () => {
+  console.log("app activate");
+
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+app.on("quit", () => {
+  console.log("app quit");
+
+  killSimulationServer();
 });
