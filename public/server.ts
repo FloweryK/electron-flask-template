@@ -1,16 +1,18 @@
-import { execFile } from "child_process";
+import { execFile, exec } from "child_process";
 import config from "./electron-config";
 const path = require("path");
 
-const backend = path.join(
-  __dirname,
-  "backend",
-  "dist",
-  process.platform.startsWith("win") ? "server.exe" : "server"
-);
+const isWindows = process.platform.startsWith("win");
 let child;
 
 const createSimulationServer = () => {
+  const backend = path.join(
+    __dirname,
+    "backend",
+    "dist",
+    isWindows ? "server.exe" : "server"
+  );
+
   child = execFile(
     backend,
     [config.server.host, config.server.port],
@@ -29,7 +31,18 @@ const createSimulationServer = () => {
 };
 
 const killSimulationServer = () => {
-  child.kill();
+  if (isWindows) {
+    exec("taskkill /f /t /im server.exe", (err, stdout, stderr) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
+  } else {
+    child.kill();
+  }
 };
 
 export { createSimulationServer, killSimulationServer };
