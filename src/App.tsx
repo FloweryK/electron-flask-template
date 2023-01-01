@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import config from "./react-config";
+
+// axios default setting for cors
 axios.defaults.withCredentials = true;
 
-const HOST = "http://127.0.0.1:5000";
-const OFFLINE = "offline";
-const ONLINE = "online";
-const UPDATE_INTERVAL = 1000;
+const BASE_URL = `http://${config.server.host}:${config.server.port}`;
 
-function App() {
-  const [serverStatus, setServerStatus] = useState(OFFLINE);
+const App = () => {
+  const [serverStatus, setServerStatus] = useState("offline");
 
   const updateServerStatus = () => {
     axios
-      .get(HOST)
+      .get(BASE_URL)
       .then((res) => {
-        setServerStatus(ONLINE);
+        setServerStatus("online");
       })
       .catch((err) => {
-        setServerStatus(OFFLINE);
+        setServerStatus("offline");
       });
   };
 
   useEffect(() => {
-    setInterval(updateServerStatus, UPDATE_INTERVAL);
+    setInterval(updateServerStatus, 1000);
   }, []);
 
   return (
@@ -46,6 +46,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;

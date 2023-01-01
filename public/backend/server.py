@@ -1,3 +1,4 @@
+import sys
 from flask import Flask
 from flask_cors import CORS
 
@@ -10,4 +11,6 @@ def hello_world():
     return 'Hello World!'
 
 if __name__ == '__main__':
-    app.run()
+    host = sys.argv[1]
+    port = sys.argv[2]
+    app.run(host=host, port=port)
