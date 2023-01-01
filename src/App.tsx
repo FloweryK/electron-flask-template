@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import axios from "axios";
-import config from "./react-config";
-
-// axios default setting for cors
-axios.defaults.withCredentials = true;
-
-const BASE_URL = `http://${config.server.host}:${config.server.port}`;
+import api from "./apis/api";
 
 const App = () => {
   const [serverStatus, setServerStatus] = useState("offline");
 
   const updateServerStatus = () => {
-    axios
-      .get(BASE_URL)
+    api
+      .getServerStatus()
       .then((res) => {
         setServerStatus("online");
       })
@@ -24,6 +18,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    updateServerStatus();
     setInterval(updateServerStatus, 1000);
   }, []);
 
