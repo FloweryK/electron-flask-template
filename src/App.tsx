@@ -1,35 +1,55 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import api from "./apis/api";
+import httpAPI from "./apis/httpAPI";
+import socketAPI from "./apis/socketAPI";
 
 const App = () => {
-  const [serverStatus, setServerStatus] = useState("offline");
+  const [isServerOnline, setServerOnline] = useState(false);
+  const [isSocketConnected, setSocketConnected] = useState(false);
 
   const updateServerStatus = () => {
-    api
+    httpAPI
       .getServerStatus()
       .then((res) => {
-        setServerStatus("online");
+        setServerOnline(true);
       })
       .catch((err) => {
-        setServerStatus("offline");
+        setServerOnline(false);
       });
   };
 
+  const updateSocketStatus = () => {
+    setSocketConnected(socketAPI.isConnected());
+  };
+
+  const toggleSocketConnection = () => {
+    if (socketAPI.isConnected()) {
+      socketAPI.disconnect();
+    } else {
+      socketAPI.connect();
+    }
+  };
+
   useEffect(() => {
+    // update server status every 1 second
     updateServerStatus();
     setInterval(updateServerStatus, 1000);
+
+    // update socket status every 1 second
+    updateSocketStatus();
+    setInterval(updateSocketStatus, 1000);
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>{serverStatus}</p>
+        <p>server status: {isServerOnline ? "online" : "offline"}</p>
+        <p>socket status: {isSocketConnected ? "online" : "offline"}</p>
+        <button onClick={toggleSocketConnection}>
+          {isSocketConnected ? "disconnect socket" : "connect socket"}
+        </button>
         <a
           className="App-link"
           href="https://reactjs.org"
