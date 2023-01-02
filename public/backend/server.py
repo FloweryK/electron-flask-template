@@ -18,6 +18,10 @@ socketio = SocketIO(
     async_mode="threading"
 )
 
+# stop signs
+is_processing = False
+
+
 @app.route('/')
 def hello_world():
     print('Hello world in stdout!')
@@ -38,6 +42,17 @@ def on_disconnect():
 def on_request(data):
     print("request from client:", data)
 
+    # global variables
+    global is_processing
+
+    # check if there's a request process ongoing
+    if is_processing:
+        print("request is already ongoing:", is_processing)
+        return
+    else:
+        # if there's no process ongoing, start processing
+        is_processing = True
+
     for i in range(5):
         # make response in json format
         res = json.dumps({
@@ -51,6 +66,8 @@ def on_request(data):
         # sleep for a while
         time.sleep(1)
 
+    # set is_processing as false (default)
+    is_processing = False
     print("end of response")
 
 if __name__ == '__main__':
