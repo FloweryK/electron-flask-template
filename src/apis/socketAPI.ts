@@ -6,6 +6,7 @@ interface ServerToClientEvents {
 }
 interface ClientToServerEvents {
   request: (req: any) => void;
+  abort: () => void;
 }
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -50,6 +51,15 @@ class socketAPI {
 
       console.log("request to server:", req);
       socket.emit("request", req);
+    } else {
+      console.log("request to server failed: not connected");
+    }
+  }
+
+  abort() {
+    if (socket?.connected) {
+      console.log("abort to server");
+      socket.emit("abort");
     } else {
       console.log("request to server failed: not connected");
     }

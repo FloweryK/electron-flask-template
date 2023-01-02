@@ -20,6 +20,7 @@ socketio = SocketIO(
 
 # stop signs
 is_processing = False
+is_abort = False
 
 
 @app.route('/')
@@ -44,16 +45,21 @@ def on_request(data):
 
     # global variables
     global is_processing
+    global is_abort
 
-    # check if there's a request process ongoing
+    # check is_processing
     if is_processing:
         print("request is already ongoing:", is_processing)
         return
     else:
-        # if there's no process ongoing, start processing
         is_processing = True
 
     for i in range(5):
+        # check abort
+        if is_abort:
+            print("abort processing")
+            break
+
         # make response in json format
         res = json.dumps({
             "test": i
@@ -68,7 +74,24 @@ def on_request(data):
 
     # set is_processing as false (default)
     is_processing = False
+    is_abort = False
     print("end of response")
+
+
+@socketio.on('abort')
+def abort():
+    print("received abort sign")
+
+    # global variables
+    global is_processing
+    global is_abort
+
+    if is_processing:
+        is_abort = True
+        print("set abort as True")
+    else:
+        print("nothing to abort")
+
 
 if __name__ == '__main__':
     host = sys.argv[1]

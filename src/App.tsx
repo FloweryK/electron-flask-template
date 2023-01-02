@@ -35,6 +35,10 @@ const App = () => {
     socketAPI.request();
   };
 
+  const abortRequestSocket = () => {
+    socketAPI.abort();
+  };
+
   useEffect(() => {
     // update server status every 1 second
     updateServerStatus();
@@ -55,6 +59,7 @@ const App = () => {
           {isSocketConnected ? "disconnect socket" : "connect socket"}
         </button>
         <button onClick={requestSocket}>request socket</button>
+        <button onClick={abortRequestSocket}>abort processing</button>
         <a
           className="App-link"
           href="https://reactjs.org"
