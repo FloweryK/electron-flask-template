@@ -1,9 +1,12 @@
 import { io, Socket } from "socket.io-client";
 import config from "../react-config";
 
-// socket communication
-interface ServerToClientEvents {}
-interface ClientToServerEvents {}
+interface ServerToClientEvents {
+  response: (res: any) => any;
+}
+interface ClientToServerEvents {
+  request: (req: any) => void;
+}
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
@@ -26,10 +29,30 @@ class socketAPI {
     socket.on("connect_error", () => {
       console.log("connect error");
     });
+
+    socket.on("response", (res) => {
+      console.log("response from server:", res);
+    });
   }
 
   disconnect() {
     socket.disconnect();
+  }
+
+  request() {
+    if (socket?.connected) {
+      const req = {
+        boolData: true,
+        intData: 1,
+        listData: [1, 2],
+        dictData: { a: 1 },
+      };
+
+      console.log("request to server:", req);
+      socket.emit("request", req);
+    } else {
+      console.log("request to server failed: not connected");
+    }
   }
 }
 

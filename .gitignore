@@ -10,7 +10,8 @@
 
 # production
 build/
-/dist/
+dist/
+public/backend/dist/
 venv/
 *.spec
 

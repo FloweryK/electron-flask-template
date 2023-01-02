@@ -31,6 +31,10 @@ const App = () => {
     }
   };
 
+  const requestSocket = () => {
+    socketAPI.request();
+  };
+
   useEffect(() => {
     // update server status every 1 second
     updateServerStatus();
@@ -50,6 +54,7 @@ const App = () => {
         <button onClick={toggleSocketConnection}>
           {isSocketConnected ? "disconnect socket" : "connect socket"}
         </button>
+        <button onClick={requestSocket}>request socket</button>
         <a
           className="App-link"
           href="https://reactjs.org"

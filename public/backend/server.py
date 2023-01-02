@@ -35,8 +35,9 @@ def on_disconnect():
 
 
 @socketio.on("request")
-def on_request():
-    print("received request. emitting response")
+def on_request(data):
+    print("request from client:", data)
+
     for i in range(5):
         # make response in json format
         res = json.dumps({
@@ -44,7 +45,12 @@ def on_request():
         })
 
         # emit response
+        print("response to client:", res)
         socketio.emit("response", res, room=request.sid)
+
+        # sleep for a while
+        time.sleep(1)
+
     print("end of response")
 
 if __name__ == '__main__':
