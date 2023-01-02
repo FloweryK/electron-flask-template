@@ -4,6 +4,12 @@ minimal template for electron frontend, flask backend application.
 
 
 
+<br/>
+
+<br/>
+
+
+
 ## Available features
 
 - communication between electron and flask available:
@@ -11,6 +17,10 @@ minimal template for electron frontend, flask backend application.
   - `socket.io`
 
 
+
+<br/>
+
+<br/>
 
 
 
@@ -22,10 +32,22 @@ minimal template for electron frontend, flask backend application.
   cd public/backend
   
   # using virtualenv is strongly recommended
+  pip install -r requirements.txt
   pyinstaller --onefile server.py
   ```
 
+- install node packages, and run in dev mode at least once (to generate electron.js)
 
+  ```bash
+  npm install
+  npm run start
+  ```
+
+  
+
+<br/>
+
+<br/>
 
 
 
