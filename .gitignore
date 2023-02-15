@@ -9,14 +9,15 @@
 /coverage
 
 # production
-build/
-dist/
-public/backend/dist/
-venv/
-*.spec
+/build
+/dist
+/src_flask/build
+/src_flask/dist
+/src_flask/venv
+/src_flask/server.spec
 
 # typescript
-public/*.js
+*.js
 
 # misc
 .DS_Store

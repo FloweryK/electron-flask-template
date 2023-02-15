@@ -1,5 +1,4 @@
 import { io, Socket } from "socket.io-client";
-import config from "../react-config";
 
 interface ServerToClientEvents {
   response: (res: any) => any;
@@ -17,7 +16,9 @@ class socketAPI {
   }
 
   connect() {
-    socket = io(`http://${config.server.host}:${config.server.port}`);
+    socket = io(
+      `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
+    );
 
     socket.on("connect", () => {
       console.log("connected");

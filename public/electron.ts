@@ -1,6 +1,5 @@
 import { app, BrowserWindow } from "electron";
 import { createSimulationServer, killSimulationServer } from "./server";
-import config from "./electron-config";
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -14,7 +13,7 @@ const createWindow = () => {
 
   mainWindow.loadURL(
     isDev
-      ? `http://${config.app.host}:${config.app.port}`
+      ? `http://localhost:3000`
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 };

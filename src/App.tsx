@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import httpAPI from "./apis/httpAPI";
-import socketAPI from "./apis/socketAPI";
+import http from "./api/http";
+import socket from "./api/socket";
 
 const App = () => {
   const [isServerOnline, setServerOnline] = useState(false);
   const [isSocketConnected, setSocketConnected] = useState(false);
 
   const updateServerStatus = () => {
-    httpAPI
+    http
       .getServerStatus()
       .then((res) => {
         setServerOnline(true);
@@ -20,23 +20,23 @@ const App = () => {
   };
 
   const updateSocketStatus = () => {
-    setSocketConnected(socketAPI.isConnected());
+    setSocketConnected(socket.isConnected());
   };
 
   const toggleSocketConnection = () => {
-    if (socketAPI.isConnected()) {
-      socketAPI.disconnect();
+    if (socket.isConnected()) {
+      socket.disconnect();
     } else {
-      socketAPI.connect();
+      socket.connect();
     }
   };
 
   const requestSocket = () => {
-    socketAPI.request();
+    socket.request();
   };
 
   const abortRequestSocket = () => {
-    socketAPI.abort();
+    socket.abort();
   };
 
   useEffect(() => {
