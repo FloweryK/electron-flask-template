@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import json
@@ -62,7 +63,9 @@ def on_request(data):
 
         # make response in json format
         res = json.dumps({
-            "test": i
+            "test": i,
+            "projectdir": projectdir,
+            "projectdirlist": os.listdir(projectdir)
         })
 
         # emit response
@@ -96,6 +99,7 @@ def abort():
 if __name__ == '__main__':
     host = sys.argv[1]
     port = sys.argv[2]
+    projectdir = sys.argv[3]
     
     # app.run(host=host, port=port)
     socketio.run(app, host=host, port=port, allow_unsafe_werkzeug=True)

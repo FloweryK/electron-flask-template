@@ -2,29 +2,33 @@ import { execFile, exec } from "child_process";
 const isDev = require("electron-is-dev");
 const path = require("path");
 
+const projectdir = path.join(isDev ? __dirname : process.resourcesPath, "..");
 const isWindows = process.platform.startsWith("win");
 let child;
 
 const createSimulationServer = () => {
   const serverPath = path.join(
-    isDev ? __dirname : process.resourcesPath,
-    "..",
+    projectdir,
     "src_flask",
     "dist",
     isWindows ? "server.exe" : "server"
   );
 
-  child = execFile(serverPath, ["localhost", "8080"], (err, stdout, stderr) => {
-    if (err) {
-      console.log(err);
+  child = execFile(
+    serverPath,
+    ["localhost", "8080", projectdir],
+    (err, stdout, stderr) => {
+      if (err) {
+        console.log(err);
+      }
+      if (stdout) {
+        console.log(stdout);
+      }
+      if (stderr) {
+        console.log(stderr);
+      }
     }
-    if (stdout) {
-      console.log(stdout);
-    }
-    if (stderr) {
-      console.log(stderr);
-    }
-  });
+  );
 };
 
 const killSimulationServer = () => {
