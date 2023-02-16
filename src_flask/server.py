@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import json
@@ -5,6 +6,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from engineio.async_drivers import threading
+from dotenv import dotenv_values
 
 # app settings
 app = Flask(__name__)
@@ -62,7 +64,7 @@ def on_request(data):
 
         # make response in json format
         res = json.dumps({
-            "test": i
+            "test": i,
         })
 
         # emit response
@@ -94,8 +96,11 @@ def abort():
 
 
 if __name__ == '__main__':
-    host = sys.argv[1]
-    port = sys.argv[2]
+    env_path = sys.argv[1]
+
+    config = dotenv_values(env_path)
+    host = config["REACT_APP_SERVER_HOST"]
+    port = config["REACT_APP_SERVER_PORT"]
     
     # app.run(host=host, port=port)
     socketio.run(app, host=host, port=port, allow_unsafe_werkzeug=True)

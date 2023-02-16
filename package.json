@@ -34,7 +34,8 @@
       "buildResources": "resources"
     },
     "extraFiles": [
-      "src_flask/dist"
+      "src_flask/dist",
+      ".env"
     ],
     "publish": null
   },
